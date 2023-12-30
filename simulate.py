@@ -6,6 +6,9 @@ physicsClient = p.connect(p.GUI)
 # Hide side bars in GUI
 p.configureDebugVisualizer(p.COV_ENABLE_GUI,0)
 
+# Add force of Gravity
+p.setGravity(0, 0, -9.8)
+
 # Load predefined object from file
 p.loadSDF("box.sdf")
 
