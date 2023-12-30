@@ -24,13 +24,31 @@ def Create_Robot():
 
     # Define dimensions (L, W, H)
     torso_dim = (1, 1, 1)
-    # Define positions (X, Y, Z)
+    # Define positions (X, Y, Z) ABSOLUTE
     torso_pos = (0, 0, torso_dim[2]/2)
     # Write to output
     pyrosim.Send_Cube(
         name="Torso",
         pos=[torso_pos[0], torso_pos[1], torso_pos[2]],
         size=[torso_dim[0], torso_dim[1], torso_dim[2]])
+    
+    # Define dimensions (L, W, H)
+    leg_dim = (1, 1, 1)
+    # Define positions (X, Y, Z) RELATIVE
+    leg_pos = (0, 0, leg_dim[2]/2)
+    # Write to output
+    pyrosim.Send_Cube(
+        name="Leg",
+        pos=[leg_pos[0], leg_pos[1], leg_pos[2]],
+        size=[leg_dim[0], leg_dim[1], leg_dim[2]])
+
+    # Define our Torso_Leg joint
+    pyrosim.Send_Joint(
+        name = "Torso_Leg",
+        parent= "Torso", child = "Leg",
+        type = "revolute",
+        position = [0, 0, torso_dim[2]]) 
+
     # Close file
     pyrosim.End()
 
