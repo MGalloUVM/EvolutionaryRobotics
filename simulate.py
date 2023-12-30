@@ -3,6 +3,8 @@ import time
 
 # Launch physics client GUI
 physicsClient = p.connect(p.GUI)
+# Hide side bars in GUI
+p.configureDebugVisualizer(p.COV_ENABLE_GUI,0)
 
 for x in range(1000):
     p.stepSimulation()
