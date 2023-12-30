@@ -1,14 +1,28 @@
 import pybullet as p
+import pybullet_data
 import time
 
-# Launch physics client GUI
+
+###
+# Physics Client Configurations
+###
+
+# Launch physics client + GUI
 physicsClient = p.connect(p.GUI)
+# Define an additional search path to look for files in directory
+p.setAdditionalSearchPath(pybullet_data.getDataPath())
 # Hide side bars in GUI
 p.configureDebugVisualizer(p.COV_ENABLE_GUI,0)
+
+###
+# World / Object Config
+###
 
 # Add force of Gravity
 p.setGravity(0, 0, -9.8)
 
+# Load predefined floor plane from pybullet_data
+planeId = p.loadURDF("plane.urdf")
 # Load predefined object from file
 p.loadSDF("box.sdf")
 
@@ -17,5 +31,7 @@ for x in range(1000):
     print(x)
     time.sleep(1/60)
 
-# Close physics client GUI
+##
+# Close physics client + GUI
+##
 p.disconnect()
