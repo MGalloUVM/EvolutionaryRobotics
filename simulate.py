@@ -26,6 +26,8 @@ planeId = p.loadURDF("plane.urdf")
 
 # Load predefined world file
 p.loadSDF("world.sdf")
+# Load predefined robot body file
+planeId = p.loadURDF("body.urdf")
 
 
 # Step through simulation
