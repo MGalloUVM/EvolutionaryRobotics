@@ -1,10 +1,18 @@
 import pyrosim.pyrosim as pyrosim
 
-# Give pyrosim location of world data
+# Set output file's name
 pyrosim.Start_SDF("box.sdf")
-# Stores cube in box file with specifications:
-#   x=0, y=0, z=0.5
-#   L=1m, W=1m, H=1m
-pyrosim.Send_Cube(name="Box", pos=[0,0,0.5] , size=[1,1,1])
+
+# Define cube dimension variables
+length = 1
+width = 2
+height = 3
+# Define cube position variables
+x = 0
+y = 0
+z = height/2
+# Write cube to output
+pyrosim.Send_Cube(name="Box", pos=[x, y, z] , size=[length, width, height])
+
 # Close sdf file
 pyrosim.End()
