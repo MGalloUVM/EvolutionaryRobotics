@@ -25,7 +25,7 @@ p.setGravity(0, 0, -9.8)
 planeId = p.loadURDF("plane.urdf")
 
 # Load predefined world file
-p.loadSDF("boxes.sdf")
+p.loadSDF("world.sdf")
 
 
 # Step through simulation
