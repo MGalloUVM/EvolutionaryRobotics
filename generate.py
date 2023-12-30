@@ -1,17 +1,23 @@
 import pyrosim.pyrosim as pyrosim
 
 # Set output file's name
-pyrosim.Start_SDF("box.sdf")
+pyrosim.Start_SDF("boxes.sdf")
 
 # Define cube dimension variables
 length = 1
-width = 2
-height = 3
-# Define cube position variables
+width = 1
+height = 1
+# Define first cube position variables
 x = 0
 y = 0
 z = height/2
-# Write cube to output
+
+# Write to output
+pyrosim.Send_Cube(name="Box", pos=[x, y, z] , size=[length, width, height])
+
+# Define second cube position variables
+x = 1
+z = height/2 + 1
 pyrosim.Send_Cube(name="Box", pos=[x, y, z] , size=[length, width, height])
 
 # Close sdf file

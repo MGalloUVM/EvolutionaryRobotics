@@ -23,9 +23,12 @@ p.setGravity(0, 0, -9.8)
 
 # Load predefined floor plane from pybullet_data
 planeId = p.loadURDF("plane.urdf")
-# Load predefined object from file
-p.loadSDF("box.sdf")
 
+# Load predefined world file
+p.loadSDF("boxes.sdf")
+
+
+# Step through simulation
 for x in range(1000):
     p.stepSimulation()
     print(x)
