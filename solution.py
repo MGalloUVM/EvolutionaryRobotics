@@ -9,11 +9,11 @@ class SOLUTION:
         self.weights = np.random.rand(3, 2) * 2 - 1
     
     # Generate robot's world, body, neural network
-    def Evaluate(self):
+    def Evaluate(self, directOrGUI):
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system('python3 simulate.py')
+        os.system('python3 simulate.py ' + directOrGUI)
         with open('fitness.txt', 'r') as fitnessFile:
             self.fitness = float(fitnessFile.readline().strip())
     

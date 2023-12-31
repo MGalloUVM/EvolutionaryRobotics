@@ -9,9 +9,13 @@ from world import WORLD
 
 
 class SIMULATION:
-    def __init__(self):
-        # Launch physics client + GUI
-        self.physicsClient = p.connect(p.GUI)
+    def __init__(self, directOrGUI):
+        self.directOrGUI = directOrGUI
+        # Launch physics client
+        if self.directOrGUI == "DIRECT":
+            self.physicsClient = p.connect(p.DIRECT)
+        else:
+            self.physicsClient = p.connect(p.GUI)
         # Define an additional search path to look for files in directory
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         # Hide side bars in GUI
@@ -41,7 +45,9 @@ class SIMULATION:
             self.robot.Think()
             # Apply motor values
             self.robot.Act()
-            sleep(c.sleep_per_frame)
+            # If visually simulating, sleep between frames
+            if self.directOrGUI == "GUI":
+                sleep(c.sleep_per_frame)
     
     def Get_Fitness(self):
         self.robot.Get_Fitness()
