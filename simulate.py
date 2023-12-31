@@ -2,6 +2,7 @@ import numpy as np
 import pybullet as p
 import pybullet_data
 import pyrosim.pyrosim as pyrosim
+import random
 import time
 
 
@@ -46,6 +47,9 @@ sim_length = 1000
 backLegSensorValues = np.zeros(sim_length)
 frontLegSensorValues = np.zeros(sim_length)
 
+# Generate sinusoidal target angles
+targetAngles = PI/4 * np.sin(np.linspace(0, 2*PI, sim_length))
+
 # Step through simulation
 for i in range(sim_length):
     p.stepSimulation()
@@ -57,17 +61,17 @@ for i in range(sim_length):
         bodyIndex = robotId,
         jointName = "Torso_BackLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = -PI / 4.0,
-        maxForce = 500
+        targetPosition = targetAngles[i],
+        maxForce = 40
     )
     pyrosim.Set_Motor_For_Joint(
         bodyIndex = robotId,
         jointName = "Torso_FrontLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = PI / 4.0,
-        maxForce = 500
+        targetPosition = targetAngles[i],
+        maxForce = 40
     )
-    time.sleep(1/80)
+    time.sleep(1/240)
 
 # Save sensor data to file
 np.save('data/BackLegTouch.npy', backLegSensorValues)
