@@ -32,6 +32,9 @@ class ROBOT:
     
     # Activate motors
     def Act(self, t):
+        for neuronName in self.nn.Get_Neuron_Names():
+            if self.nn.Is_Motor_Neuron(neuronName):
+                print(neuronName)
         for motor in self.motors.values():
             motor.Set_Value(self.id, t)
     
