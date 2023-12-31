@@ -5,13 +5,7 @@ import pyrosim.pyrosim as pyrosim
 import random
 import time
 
-
-###
-# Constants
-###
-
-GRAVITY = -9.8
-PI = np.pi
+import constants as c
 
 
 ###
@@ -30,7 +24,7 @@ p.configureDebugVisualizer(p.COV_ENABLE_GUI,0)
 ###
 
 # Add force of Gravity
-p.setGravity(0, 0, GRAVITY)
+p.setGravity(0, 0, c.GRAVITY)
 
 # Load predefined floor plane from pybullet_data
 planeId = p.loadURDF("plane.urdf")
@@ -43,21 +37,16 @@ robotId = p.loadURDF("body.urdf")
 pyrosim.Prepare_To_Simulate(robotId)
 
 # Define our simulation length
-sim_length = 1000
+sim_length = c.SIMULATION_LENGTH
 
-# Create len10000 array of zeros for future sensor data
+# Initialize len10000 array of zeros for future sensor data
 backLegSensorValues = np.zeros(sim_length)
 frontLegSensorValues = np.zeros(sim_length)
 
 # Generate sinusoidal target angles
-backLegAmplitude = PI/3
-backLegFrequency = 0.05
-backLegPhaseOffset = 0
-backLegTargetAngles = [backLegAmplitude * np.sin(backLegFrequency * i + backLegPhaseOffset) for i in range(sim_length)]
-frontLegAmplitude = PI/4
-frontLegFrequency = 0.05
-frontLegPhaseOffset = PI/4
-frontLegTargetAngles = [frontLegAmplitude * np.sin(frontLegFrequency * i + frontLegPhaseOffset) for i in range(sim_length)]
+backLegTargetAngles = [c.BL_AMPLITUDE * np.sin(c.BL_FREQUENCY * i + c.BL_PHASE_OFFSET) for i in range(sim_length)]
+frontLegTargetAngles = [c.FL_AMPLITUDE * np.sin(c.FL_FREQUENCY * i + c.FL_PHASE_OFFSET) for i in range(sim_length)]
+
 # Save motor data to file
 np.save('data/FrontLegTargetAngles.npy', backLegTargetAngles)
 np.save('data/BackLegTargetAngles.npy', frontLegTargetAngles)
@@ -75,16 +64,16 @@ for i in range(sim_length):
         jointName = "Torso_BackLeg",
         controlMode = p.POSITION_CONTROL,
         targetPosition = backLegTargetAngles[i],
-        maxForce = 25
+        maxForce = c.MAX_FORCE
     )
     pyrosim.Set_Motor_For_Joint(
         bodyIndex = robotId,
         jointName = "Torso_FrontLeg",
         controlMode = p.POSITION_CONTROL,
         targetPosition = frontLegTargetAngles[i],
-        maxForce = 25
+        maxForce = c.MAX_FORCE
     )
-    time.sleep(1/240)
+    time.sleep(c.SLEEP_PER_FRAME)
 
 # Save sensor data to file
 np.save('data/BackLegTouch.npy', backLegSensorValues)
