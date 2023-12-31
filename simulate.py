@@ -43,7 +43,8 @@ for i in range(10000):
     backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
     time.sleep(1/60)
 
-print(backLegSensorValues)
+# Save sensor data to file
+np.save('data/BackLegTouch.npy', backLegSensorValues)
 
 ##
 # Close physics client + GUI
