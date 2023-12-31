@@ -1,6 +1,20 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
+###
+# Motor Data
+###
+
+targetAngles = np.load('data/TargetAngles.npy')
+
+plt.plot(targetAngles)
+plt.show()
+
+###
+# Sensor Data
+###
+
 backLegSensorValues = np.load('data/BackLegTouch.npy')
 frontLegSensorValues = np.load('data/FrontLegTouch.npy')
 

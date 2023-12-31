@@ -11,6 +11,9 @@ import time
 ###
 GRAVITY = -9.8
 PI = np.pi
+AMPLITUDE = PI/4
+FREQUENCY = 0.06923
+PHASE_OFFSET = 0
 
 ###
 # Physics Client Configurations
@@ -48,7 +51,9 @@ backLegSensorValues = np.zeros(sim_length)
 frontLegSensorValues = np.zeros(sim_length)
 
 # Generate sinusoidal target angles
-targetAngles = PI/4 * np.sin(np.linspace(0, 2*PI, sim_length))
+targetAngles = [AMPLITUDE * np.sin(FREQUENCY * i + PHASE_OFFSET) for i in range(sim_length)]
+# Save motor data to file
+np.save('data/TargetAngles.npy', targetAngles)
 
 # Step through simulation
 for i in range(sim_length):
