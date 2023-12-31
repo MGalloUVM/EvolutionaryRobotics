@@ -65,15 +65,7 @@ def Generate_Body():
 
     # Close file
     pyrosim.End()
-
-
-def Generate_Synapses():
-    for i in ['0', '1', '2']:
-        for j in ['3', '4']:
-            weight = -1 + (random.random() * 2)
-            pyrosim.Send_Synapse(sourceNeuronName=i, targetNeuronName=j, weight=weight)
-
-
+    
 # Generate Robot Brain
 def Generate_Brain():
     # Define output file for URDF writing
@@ -86,7 +78,10 @@ def Generate_Brain():
     pyrosim.Send_Motor_Neuron(name=3, jointName="Torso_BackLeg")
     pyrosim.Send_Motor_Neuron(name=4, jointName="Torso_FrontLeg")
     # Generate Synapses
-    Generate_Synapses()
+    for i in ['0', '1', '2']:
+        for j in ['3', '4']:
+            weight = -1 + (random.random() * 2)
+            pyrosim.Send_Synapse(sourceNeuronName=i, targetNeuronName=j, weight=weight)
     # Close file
     pyrosim.End()
 
