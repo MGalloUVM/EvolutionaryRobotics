@@ -1,4 +1,5 @@
 import pyrosim.pyrosim as pyrosim
+import random
 
 # Create our world
 def Create_World():
@@ -66,6 +67,13 @@ def Generate_Body():
     pyrosim.End()
 
 
+def Generate_Synapses():
+    for i in ['0', '1', '2']:
+        for j in ['3', '4']:
+            weight = -1 + (random.random() * 2)
+            pyrosim.Send_Synapse(sourceNeuronName=i, targetNeuronName=j, weight=weight)
+
+
 # Generate Robot Brain
 def Generate_Brain():
     # Define output file for URDF writing
@@ -78,12 +86,7 @@ def Generate_Brain():
     pyrosim.Send_Motor_Neuron(name=3, jointName="Torso_BackLeg")
     pyrosim.Send_Motor_Neuron(name=4, jointName="Torso_FrontLeg")
     # Generate Synapses
-    pyrosim.Send_Synapse(sourceNeuronName=0, targetNeuronName=3, weight=0.1)
-    pyrosim.Send_Synapse(sourceNeuronName=1, targetNeuronName=3, weight=2.0)
-    pyrosim.Send_Synapse(sourceNeuronName=2, targetNeuronName=3, weight=2.0)
-    pyrosim.Send_Synapse(sourceNeuronName=0, targetNeuronName=4, weight=0.1)
-    pyrosim.Send_Synapse(sourceNeuronName=1, targetNeuronName=4, weight=2.0)
-    pyrosim.Send_Synapse(sourceNeuronName=2, targetNeuronName=4, weight=0.5)
+    Generate_Synapses()
     # Close file
     pyrosim.End()
 
