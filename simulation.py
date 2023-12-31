@@ -34,12 +34,12 @@ class SIMULATION:
         #   t: time step
         for t in range(c.simulation_length):
             p.stepSimulation()
-            # Read sensor values
-            self.robot.Sense(t)
+            # Read sensor values (For saving sensor values throughout run)
+            # self.robot.Sense(t)
             # Use our neural net to figure out what to do next
             self.robot.Think()
             # Apply motor values
-            self.robot.Act(t)
+            self.robot.Act()
             sleep(c.sleep_per_frame)
     
     def __del__(self):

@@ -10,6 +10,14 @@ class MOTOR:
         self.jointName = jointName
         self.Prepare_To_Act()
     
+    def Set_Value(self, robot, desiredAngle):
+        pyrosim.Set_Motor_For_Joint(
+            bodyIndex = robot,
+            jointName = self.jointName,
+            controlMode = p.POSITION_CONTROL,
+            targetPosition = desiredAngle,
+            maxForce = c.max_force)
+
     def Prepare_To_Act(self):
         self.amplitude = c.fl_amplitude
         self.frequency = c.fl_frequency
@@ -18,14 +26,6 @@ class MOTOR:
         self.offset = c.fl_phase_offset
         # Generate sinusoidal target angles
         self.motorValues = [self.amplitude * np.sin(self.frequency * i + self.offset) for i in range(c.simulation_length)]
-    
-    def Set_Value(self, robot, t):
-        pyrosim.Set_Motor_For_Joint(
-            bodyIndex = robot,
-            jointName = self.jointName,
-            controlMode = p.POSITION_CONTROL,
-            targetPosition = self.motorValues[t],
-            maxForce = c.max_force)
 
     def Save_Values(self):
         # Save motor data to file
