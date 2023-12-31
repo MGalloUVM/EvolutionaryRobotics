@@ -1,3 +1,4 @@
 */__pycache__
 *.sdf
 *.urdf
+.venv/
