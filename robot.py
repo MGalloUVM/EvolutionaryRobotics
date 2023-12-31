@@ -7,7 +7,6 @@ from sensor import SENSOR
 
 class ROBOT:
     def __init__(self):
-        self.motors = {}
         # Load predefined robot body file
         self.id = p.loadURDF("body.urdf")
     
@@ -22,3 +21,12 @@ class ROBOT:
         for sensor in self.sensors.values():
             sensor.Get_Value(t)
     
+    # Create motors for each joint in the robot's body
+    def Prepare_To_Act(self):
+        self.motors = {}
+        for jointName in pyrosim.jointNamesToIndices:
+            self.motors[jointName] = MOTOR(jointName)
+    
+    def Act(self, t):
+        for motor in self.motors.values():
+            motor.Set_Value(self.id, t)

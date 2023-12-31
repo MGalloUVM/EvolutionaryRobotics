@@ -26,6 +26,8 @@ class SIMULATION:
         pyrosim.Prepare_To_Simulate(self.robot.id)
         # Prepare robot for sensing
         self.robot.Prepare_To_Sense()
+        # Prepare robot motor values for acting
+        self.robot.Prepare_To_Act()
 
     def Run(self):
         # Step through simulation
@@ -34,21 +36,8 @@ class SIMULATION:
             p.stepSimulation()
             # Read sensor values
             self.robot.Sense(t)
-            # # Simulate motors
-            # pyrosim.Set_Motor_For_Joint(
-            #     bodyIndex = robotId,
-            #     jointName = "Torso_BackLeg",
-            #     controlMode = p.POSITION_CONTROL,
-            #     targetPosition = backLegTargetAngles[i],
-            #     maxForce = c.max_force
-            # )
-            # pyrosim.Set_Motor_For_Joint(
-            #     bodyIndex = robotId,
-            #     jointName = "Torso_FrontLeg",
-            #     controlMode = p.POSITION_CONTROL,
-            #     targetPosition = frontLegTargetAngles[i],
-            #     maxForce = c.max_force
-            # )
+            # Apply motor values
+            self.robot.Act(t)
             sleep(c.sleep_per_frame)
     
     def __del__(self):
