@@ -57,10 +57,17 @@ for i in range(sim_length):
         bodyIndex = robotId,
         jointName = "Torso_BackLeg",
         controlMode = p.POSITION_CONTROL,
+        targetPosition = -PI / 4.0,
+        maxForce = 500
+    )
+    pyrosim.Set_Motor_For_Joint(
+        bodyIndex = robotId,
+        jointName = "Torso_FrontLeg",
+        controlMode = p.POSITION_CONTROL,
         targetPosition = PI / 4.0,
         maxForce = 500
     )
-    time.sleep(1/60)
+    time.sleep(1/80)
 
 # Save sensor data to file
 np.save('data/BackLegTouch.npy', backLegSensorValues)
