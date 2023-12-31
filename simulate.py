@@ -6,6 +6,12 @@ import time
 
 
 ###
+# Constants
+###
+GRAVITY = -9.8
+PI = np.pi
+
+###
 # Physics Client Configurations
 ###
 
@@ -21,7 +27,7 @@ p.configureDebugVisualizer(p.COV_ENABLE_GUI,0)
 ###
 
 # Add force of Gravity
-p.setGravity(0, 0, -9.8)
+p.setGravity(0, 0, GRAVITY)
 
 # Load predefined floor plane from pybullet_data
 planeId = p.loadURDF("plane.urdf")
@@ -43,9 +49,17 @@ frontLegSensorValues = np.zeros(sim_length)
 # Step through simulation
 for i in range(sim_length):
     p.stepSimulation()
-    # Read touch sensor value on BackLeg
+    # Read touch sensor values
     backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
     frontLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
+    # Simulate motors
+    pyrosim.Set_Motor_For_Joint(
+        bodyIndex = robotId,
+        jointName = "Torso_BackLeg",
+        controlMode = p.POSITION_CONTROL,
+        targetPosition = PI / 4.0,
+        maxForce = 500
+    )
     time.sleep(1/60)
 
 # Save sensor data to file
