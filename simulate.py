@@ -33,18 +33,24 @@ robotId = p.loadURDF("body.urdf")
 # Connect Pyroism to robot
 pyrosim.Prepare_To_Simulate(robotId)
 
+# Define our simulation length
+sim_length = 1000
+
 # Create len10000 array of zeros for future sensor data
-backLegSensorValues = np.zeros(10000)
+backLegSensorValues = np.zeros(sim_length)
+frontLegSensorValues = np.zeros(sim_length)
 
 # Step through simulation
-for i in range(10000):
+for i in range(sim_length):
     p.stepSimulation()
     # Read touch sensor value on BackLeg
     backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
+    frontLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
     time.sleep(1/60)
 
 # Save sensor data to file
 np.save('data/BackLegTouch.npy', backLegSensorValues)
+np.save('data/FrontLegTouch.npy', frontLegSensorValues)
 
 ##
 # Close physics client + GUI
