@@ -1,4 +1,5 @@
 import numpy as np
+import os
 import pyrosim.pyrosim as pyrosim
 
 
@@ -8,7 +9,10 @@ class SOLUTION:
     
     # Generate robot's world, body, neural network
     def Evaluate(self):
-        pass
+        self.Create_World()
+        self.Create_Body()
+        self.Create_Brain()
+        os.system('python3 simulate.py')
 
     # Create our world
     def Create_World(self):
@@ -87,9 +91,9 @@ class SOLUTION:
         pyrosim.Send_Motor_Neuron(name=3, jointName="Torso_BackLeg")
         pyrosim.Send_Motor_Neuron(name=4, jointName="Torso_FrontLeg")
         # Generate Synapses
-        for i in ['0', '1', '2']:
-            for j in ['3', '4']:
-                weight = -1 + (random.random() * 2)
-                pyrosim.Send_Synapse(sourceNeuronName=i, targetNeuronName=j, weight=weight)
+        for currentRow in [0, 1, 2]:
+            for currentColumn in [0, 1]:
+                # Target Neuron starts at 3, so add 3 to currentColumn
+                pyrosim.Send_Synapse(sourceNeuronName=currentRow, targetNeuronName=currentColumn+3, weight=self.weights[currentRow][currentColumn])
         # Close file
         pyrosim.End()
