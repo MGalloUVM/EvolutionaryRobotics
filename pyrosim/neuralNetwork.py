@@ -54,7 +54,7 @@ class NEURAL_NETWORK:
             
             else:
 
-                self.neurons[neuronName].Update_Hidden_Or_Motor_Neuron()
+                self.neurons[neuronName].Update_Hidden_Or_Motor_Neuron(self.neurons, self.synapses)
 
 # ---------------- Private methods --------------------------------------
 
