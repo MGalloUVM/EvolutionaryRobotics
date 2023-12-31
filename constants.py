@@ -1,6 +1,6 @@
 import numpy as np
 
-PI = np.PI
+PI = np.pi
 
 ###
 # Simulation Variables
