@@ -24,14 +24,16 @@ class SIMULATION:
 
         # Connect Pyroism to robot
         pyrosim.Prepare_To_Simulate(self.robot.id)
+        # Prepare robot for sensing
+        self.robot.Prepare_To_Sense()
 
     def Run(self):
         # Step through simulation
-        for i in range(c.simulation_length):
+        #   t: time step
+        for t in range(c.simulation_length):
             p.stepSimulation()
-            # # Read touch sensor values
-            # backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
-            # frontLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
+            # Read sensor values
+            self.robot.Sense(t)
             # # Simulate motors
             # pyrosim.Set_Motor_For_Joint(
             #     bodyIndex = robotId,
