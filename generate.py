@@ -71,9 +71,12 @@ def Generate_Brain():
     # Define output file for URDF writing
     pyrosim.Start_URDF("brain.nndf")
     # Create a sensor neuron on our links
-    pyrosim.Send_Sensor_Neuron(name = 0 , linkName = "Torso")
-    pyrosim.Send_Sensor_Neuron(name = 1 , linkName = "BackLeg")
-    pyrosim.Send_Sensor_Neuron(name = 2 , linkName = "FrontLeg")
+    pyrosim.Send_Sensor_Neuron(name=0 , linkName="Torso")
+    pyrosim.Send_Sensor_Neuron(name=1 , linkName="BackLeg")
+    pyrosim.Send_Sensor_Neuron(name=2 , linkName="FrontLeg")
+    # Create a motor neuron for all our joints
+    pyrosim.Send_Motor_Neuron(name=3, jointName="Torso_BackLeg")
+    pyrosim.Send_Motor_Neuron(name=4, jointName="Torso_FrontLeg")
     # Close file
     pyrosim.End()
 
