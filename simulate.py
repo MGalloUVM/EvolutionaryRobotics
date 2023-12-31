@@ -9,11 +9,10 @@ import time
 ###
 # Constants
 ###
+
 GRAVITY = -9.8
 PI = np.pi
-AMPLITUDE = PI/4
-FREQUENCY = 0.06923
-PHASE_OFFSET = 0
+
 
 ###
 # Physics Client Configurations
@@ -51,9 +50,18 @@ backLegSensorValues = np.zeros(sim_length)
 frontLegSensorValues = np.zeros(sim_length)
 
 # Generate sinusoidal target angles
-targetAngles = [AMPLITUDE * np.sin(FREQUENCY * i + PHASE_OFFSET) for i in range(sim_length)]
+backLegAmplitude = PI/4
+backLegFrequency = 0.06923
+backLegPhaseOffset = 0
+backLegTargetAngles = [backLegAmplitude * np.sin(backLegFrequency * i + backLegPhaseOffset) for i in range(sim_length)]
+frontLegAmplitude = PI/4
+frontLegFrequency = 0.06923
+frontLegPhaseOffset = PI
+frontLegTargetAngles = [frontLegAmplitude * np.sin(frontLegFrequency * i + frontLegPhaseOffset) for i in range(sim_length)]
 # Save motor data to file
-np.save('data/TargetAngles.npy', targetAngles)
+np.save('data/FrontLegTargetAngles.npy', backLegTargetAngles)
+np.save('data/BackLegTargetAngles.npy', frontLegTargetAngles)
+# exit()
 
 # Step through simulation
 for i in range(sim_length):
@@ -66,15 +74,15 @@ for i in range(sim_length):
         bodyIndex = robotId,
         jointName = "Torso_BackLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = targetAngles[i],
-        maxForce = 40
+        targetPosition = backLegTargetAngles[i],
+        maxForce = 25
     )
     pyrosim.Set_Motor_For_Joint(
         bodyIndex = robotId,
         jointName = "Torso_FrontLeg",
         controlMode = p.POSITION_CONTROL,
-        targetPosition = targetAngles[i],
-        maxForce = 40
+        targetPosition = frontLegTargetAngles[i],
+        maxForce = 25
     )
     time.sleep(1/240)
 

@@ -6,9 +6,13 @@ import numpy as np
 # Motor Data
 ###
 
-targetAngles = np.load('data/TargetAngles.npy')
+backLegTargetAngles = np.load('data/BackLegTargetAngles.npy')
+frontLegTargetAngles = np.load('data/FrontLegTargetAngles.npy')
 
-plt.plot(targetAngles)
+plt.plot(backLegTargetAngles, label="Back Leg")
+plt.plot(frontLegTargetAngles, label="Front Leg", color="red", alpha=0.6)
+plt.title("Motor Commands")
+plt.legend()
 plt.show()
 
 ###
