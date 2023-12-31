@@ -13,6 +13,8 @@ class SOLUTION:
         self.Create_Body()
         self.Create_Brain()
         os.system('python3 simulate.py')
+        with open('fitness.txt', 'r') as fitnessFile:
+            self.fitness = float(fitnessFile.readline().strip())
 
     # Create our world
     def Create_World(self):
