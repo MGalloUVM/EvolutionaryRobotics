@@ -5,3 +5,4 @@ __pycache__
 *.nndf
 .venv/
 data/*
+fitness.txt
