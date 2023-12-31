@@ -1,5 +1,9 @@
 import os
 
-for _ in range(5):
-    os.system("python3 generate.py")
-    os.system("python3 simulate.py")
+from hillclimber import HILL_CLIMBER
+
+
+hc = HILL_CLIMBER()
+# for _ in range(5):
+#     os.system("python3 generate.py")
+#     os.system("python3 simulate.py")
