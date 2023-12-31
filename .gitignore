@@ -2,3 +2,4 @@
 *.sdf
 *.urdf
 .venv/
+data/*
