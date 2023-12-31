@@ -9,7 +9,7 @@ from sensor import SENSOR
 class ROBOT:
     def __init__(self):
         # Load predefined robot body file
-        self.id = p.loadURDF("body.urdf")
+        self.robotId = p.loadURDF("body.urdf")
         # Load our predefined neural network
         self.nn = NEURAL_NETWORK("brain.nndf")
     
@@ -36,10 +36,9 @@ class ROBOT:
             if self.nn.Is_Motor_Neuron(neuronName):
                 jointName = self.nn.Get_Motor_Neurons_Joint(neuronName)
                 desiredAngle = self.nn.Get_Value_Of(neuronName)
-                self.motors[jointName].Set_Value(self.id, desiredAngle)
+                self.motors[jointName].Set_Value(self.robotId, desiredAngle)
                 print(neuronName, jointName, desiredAngle)
     
     # Calculate next movements
     def Think(self):
         self.nn.Update()
-        self.nn.Print()
