@@ -17,11 +17,10 @@ def Create_World():
     pyrosim.End()
 
 
-# Create our Robot
-def Create_Robot():
+# Generate Robot Body
+def Generate_Body():
     # Define output file for URDF writing
     pyrosim.Start_URDF("body.urdf")
-
     # Define dimensions (L, W, H)
     dim = (1, 1, 1)
     # Define positions (X, Y, Z) ABSOLUTE
@@ -65,6 +64,61 @@ def Create_Robot():
 
     # Close file
     pyrosim.End()
+
+
+# Generate Robot Brain
+def Generate_Brain():
+    # Define output file for URDF writing
+    pyrosim.Start_URDF("body.urdf")
+    # Define dimensions (L, W, H)
+    dim = (1, 1, 1)
+    # Define positions (X, Y, Z) ABSOLUTE
+    pos = (0, 0, 1.5)
+    # Write to output
+    pyrosim.Send_Cube(
+        name="Torso",
+        pos=[pos[0], pos[1], pos[2]],
+        size=[dim[0], dim[1], dim[2]])
+    # Define dimensions (L, W, H)
+    dim = (1, 1, 1)
+    # Define positions (X, Y, Z) RELATIVE
+    pos = (0.5, 0, -0.5)
+    # Write to output
+    pyrosim.Send_Cube(
+        name="FrontLeg",
+        pos=[pos[0], pos[1], pos[2]],
+        size=[dim[0], dim[1], dim[2]])
+    
+    # Define dimensions (L, W, H)
+    dim = (1, 1, 1)
+    # Define positions (X, Y, Z) RELATIVE
+    pos = (-0.5, 0, -0.5)
+    # Write to output
+    pyrosim.Send_Cube(
+        name="BackLeg",
+        pos=[pos[0], pos[1], pos[2]],
+        size=[dim[0], dim[1], dim[2]])
+
+    # Define our Joints
+    pyrosim.Send_Joint(
+        name = "Torso_FrontLeg",
+        parent = "Torso", child = "FrontLeg",
+        type = "revolute",
+        position = [0.5, 0, 1])
+    pyrosim.Send_Joint(
+        name = "Torso_BackLeg",
+        parent = "Torso", child = "BackLeg",
+        type = "revolute",
+        position = [-0.5, 0, 1])
+
+    # Close file
+    pyrosim.End()
+
+
+# Create our Robot
+def Create_Robot():
+    Generate_Body()
+    Generate_Brain()
 
 
 Create_World()
