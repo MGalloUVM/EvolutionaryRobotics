@@ -36,6 +36,8 @@ class SIMULATION:
             p.stepSimulation()
             # Read sensor values
             self.robot.Sense(t)
+            # Use our neural net to figure out what to do next
+            self.robot.Think()
             # Apply motor values
             self.robot.Act(t)
             sleep(c.sleep_per_frame)
