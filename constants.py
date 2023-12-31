@@ -1,16 +1,16 @@
 import numpy as np
 
-PI = np.pi
+pi = np.pi
 
 ###
 # Simulation Variables
 ###
 
-GRAVITY = -9.8
-SIMULATION_LENGTH = 1000
-SLEEP_PER_FRAME = 1/240
+gravity = -9.8
+simulation_length = 1000
+sleep_per_frame = 1/240
 # Max force on a joint
-MAX_FORCE = 25
+max_force = 25
 
 
 ###
@@ -18,11 +18,11 @@ MAX_FORCE = 25
 ###
 
 # BACK LEG
-BL_AMPLITUDE = PI/3
-BL_FREQUENCY = 0.05
-BL_PHASE_OFFSET = 0
+bl_amplitude = pi/3
+bl_frequency = 0.05
+bl_phase_offset = 0
 
 # FRONT LEG
-FL_AMPLITUDE = PI/4
-FL_FREQUENCY = 0.05
-FL_PHASE_OFFSET = PI/4
+fl_amplitude = pi/4
+fl_frequency = 0.05
+fl_phase_offset = pi/4

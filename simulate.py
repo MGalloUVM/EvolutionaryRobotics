@@ -24,7 +24,7 @@ p.configureDebugVisualizer(p.COV_ENABLE_GUI,0)
 ###
 
 # Add force of Gravity
-p.setGravity(0, 0, c.GRAVITY)
+p.setGravity(0, 0, c.gravity)
 
 # Load predefined floor plane from pybullet_data
 planeId = p.loadURDF("plane.urdf")
@@ -44,8 +44,8 @@ backLegSensorValues = np.zeros(sim_length)
 frontLegSensorValues = np.zeros(sim_length)
 
 # Generate sinusoidal target angles
-backLegTargetAngles = [c.BL_AMPLITUDE * np.sin(c.BL_FREQUENCY * i + c.BL_PHASE_OFFSET) for i in range(sim_length)]
-frontLegTargetAngles = [c.FL_AMPLITUDE * np.sin(c.FL_FREQUENCY * i + c.FL_PHASE_OFFSET) for i in range(sim_length)]
+backLegTargetAngles = [c.bl_amplitude * np.sin(c.bl_frequency * i + c.bl_phase_offset) for i in range(sim_length)]
+frontLegTargetAngles = [c.fl_amplitude * np.sin(c.fl_frequency * i + c.fl_phase_offset) for i in range(sim_length)]
 
 # Save motor data to file
 np.save('data/FrontLegTargetAngles.npy', backLegTargetAngles)
@@ -64,16 +64,16 @@ for i in range(sim_length):
         jointName = "Torso_BackLeg",
         controlMode = p.POSITION_CONTROL,
         targetPosition = backLegTargetAngles[i],
-        maxForce = c.MAX_FORCE
+        maxForce = c.max_force
     )
     pyrosim.Set_Motor_For_Joint(
         bodyIndex = robotId,
         jointName = "Torso_FrontLeg",
         controlMode = p.POSITION_CONTROL,
         targetPosition = frontLegTargetAngles[i],
-        maxForce = c.MAX_FORCE
+        maxForce = c.max_force
     )
-    time.sleep(c.SLEEP_PER_FRAME)
+    time.sleep(c.sleep_per_frame)
 
 # Save sensor data to file
 np.save('data/BackLegTouch.npy', backLegSensorValues)
