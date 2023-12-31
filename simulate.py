@@ -50,13 +50,13 @@ backLegSensorValues = np.zeros(sim_length)
 frontLegSensorValues = np.zeros(sim_length)
 
 # Generate sinusoidal target angles
-backLegAmplitude = PI/4
-backLegFrequency = 0.06923
+backLegAmplitude = PI/3
+backLegFrequency = 0.05
 backLegPhaseOffset = 0
 backLegTargetAngles = [backLegAmplitude * np.sin(backLegFrequency * i + backLegPhaseOffset) for i in range(sim_length)]
 frontLegAmplitude = PI/4
-frontLegFrequency = 0.06923
-frontLegPhaseOffset = PI
+frontLegFrequency = 0.05
+frontLegPhaseOffset = PI/4
 frontLegTargetAngles = [frontLegAmplitude * np.sin(frontLegFrequency * i + frontLegPhaseOffset) for i in range(sim_length)]
 # Save motor data to file
 np.save('data/FrontLegTargetAngles.npy', backLegTargetAngles)
