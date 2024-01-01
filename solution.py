@@ -13,11 +13,15 @@ class SOLUTION:
         self.myID = newID
     
     # Generate robot's world, body, neural network
-    def Evaluate(self, directOrGUI):
+    #   Start Simulation
+    def Start_Simulation(self, directOrGUI):
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
         os.system(f"python3 simulate.py {directOrGUI} {self.myID} &")
+
+    # Waits for simulation to end, reads in fitness files
+    def Wait_For_Simulation_To_End(self):
         while not os.path.exists(f"fitness{self.myID}.txt"):
             sleep(0.01)
         with open(f"fitness{self.myID}.txt", 'r') as fitnessFile:
