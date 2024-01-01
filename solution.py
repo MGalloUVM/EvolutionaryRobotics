@@ -18,7 +18,7 @@ class SOLUTION:
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system(f"python3 simulate.py {directOrGUI} {self.myID} &")
+        os.system(f"python3 simulate.py {directOrGUI} {self.myID} &>/dev/null &")
 
     # Waits for simulation to end, reads in fitness files
     def Wait_For_Simulation_To_End(self):

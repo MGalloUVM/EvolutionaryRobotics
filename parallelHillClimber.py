@@ -21,7 +21,7 @@ class PARALLEL_HILL_CLIMBER:
         self.Mutate()
         self.Evaluate(self.children)
         self.Print()
-        # self.Select()
+        self.Select()
     
     def Spawn(self):
         self.children = {}
@@ -41,12 +41,20 @@ class PARALLEL_HILL_CLIMBER:
             solutions[i].Wait_For_Simulation_To_End()
 
     def Select(self):
-        if self.child.fitness < self.parent.fitness:
-            self.parent = self.child
+        for i in range(c.populationSize):
+            if self.Better_Fitness(self.children[i].fitness, self.parents[i].fitness):
+                self.parents[i] = self.children[i]
             
     def Show_Best(self):
-        return
-        self.parent.Evaluate("GUI")
+        bestIndex = 0
+        for i in range(1, c.populationSize):
+            if self.Better_Fitness(self.parents[i].fitness, self.parents[bestIndex].fitness):
+                bestIndex = i
+        self.parents[bestIndex].Start_Simulation("GUI")
+    
+    # Custom method to make switching fitness easier
+    def Better_Fitness(self, leftFitness, rightFitness):
+        return leftFitness < rightFitness 
     
     def Print(self):
         print('\n\n')

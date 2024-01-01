@@ -14,7 +14,7 @@ max_force = 25
 # Simulation Variables
 ###
 
-simulation_length = 1000
+simulation_length = 1500
 sleep_per_frame = 1/160
-numberOfGenerations = 2
-populationSize = 2
+numberOfGenerations = 10
+populationSize = 10
