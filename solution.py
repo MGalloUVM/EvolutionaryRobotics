@@ -2,20 +2,28 @@ import numpy as np
 import os
 import pyrosim.pyrosim as pyrosim
 import random
-
+from time import sleep
 
 class SOLUTION:
-    def __init__(self):
+    def __init__(self, myID):
+        self.myID = myID
         self.weights = np.random.rand(3, 2) * 2 - 1
+    
+    def Set_ID(self, newID):
+        self.myID = newID
     
     # Generate robot's world, body, neural network
     def Evaluate(self, directOrGUI):
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system('python3 simulate.py ' + directOrGUI)
-        with open('fitness.txt', 'r') as fitnessFile:
+        os.system(f"python3 simulate.py {directOrGUI} {self.myID} &")
+        while not os.path.exists(f"fitness{self.myID}.txt"):
+            sleep(0.01)
+        with open(f"fitness{self.myID}.txt", 'r') as fitnessFile:
             self.fitness = float(fitnessFile.readline().strip())
+        # Remove fitness file after read
+        os.system(f"rm fitness{self.myID}.txt")
     
     def Mutate(self):
         # Choose a random row to mutate
@@ -25,6 +33,9 @@ class SOLUTION:
 
     # Create our world
     def Create_World(self):
+        # Only execute if file isn't already built
+        if os.path.exists("world.sdf"):
+            return
         # Set output file's name
         pyrosim.Start_SDF("world.sdf")
         # Define cube dimensions (L, W, H)
@@ -42,6 +53,8 @@ class SOLUTION:
 
     # Generate Robot Body
     def Create_Body(self):
+        if os.path.exists("body.urdf"):
+            return
         # Define output file for URDF writing
         pyrosim.Start_URDF("body.urdf")
         # Define dimensions (L, W, H)
@@ -91,7 +104,7 @@ class SOLUTION:
     # Generate Robot Brain
     def Create_Brain(self):
         # Define output file for URDF writing
-        pyrosim.Start_URDF("brain.nndf")
+        pyrosim.Start_URDF(f"brain{self.myID}.nndf")
         # Create a sensor neuron on our links
         pyrosim.Send_Sensor_Neuron(name=0 , linkName="Torso")
         pyrosim.Send_Sensor_Neuron(name=1 , linkName="BackLeg")

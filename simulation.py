@@ -9,7 +9,7 @@ from world import WORLD
 
 
 class SIMULATION:
-    def __init__(self, directOrGUI):
+    def __init__(self, directOrGUI, solutionID):
         self.directOrGUI = directOrGUI
         # Launch physics client
         if self.directOrGUI == "DIRECT":
@@ -24,7 +24,7 @@ class SIMULATION:
         p.setGravity(0, 0, c.gravity)
 
         self.world = WORLD()
-        self.robot = ROBOT()
+        self.robot = ROBOT(solutionID)
 
         # Connect Pyroism to robot
         pyrosim.Prepare_To_Simulate(self.robot.robotId)
