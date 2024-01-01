@@ -19,5 +19,5 @@ gravity = -9.8
 # Max force on a joint
 max_force = 25
 
-numSensorNeurons = 9
+numSensorNeurons = 4
 numMotorNeurons = 8
