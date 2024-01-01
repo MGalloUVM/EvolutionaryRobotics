@@ -34,7 +34,8 @@ class PARALLEL_HILL_CLIMBER:
             self.nextAvailableID += 1
 
     def Mutate(self):
-        self.child.Mutate()
+        for i in range(c.populationSize):
+            self.children[i].Mutate()
 
     def Select(self):
         if self.child.fitness < self.parent.fitness:
