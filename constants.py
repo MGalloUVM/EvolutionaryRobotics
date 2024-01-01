@@ -16,5 +16,5 @@ max_force = 25
 
 simulation_length = 1000
 sleep_per_frame = 1/160
-numberOfGenerations = 10
-populationSize = 10
+numberOfGenerations = 2
+populationSize = 2
