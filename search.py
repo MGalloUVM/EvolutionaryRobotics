@@ -3,7 +3,9 @@ import os
 from parallelHillClimber import PARALLEL_HILL_CLIMBER
 
 # Remove any lingering files
-os.system("rm body.urdf; rm world.sdf; rm brain*.nndf; rm fitness*.txt")
+for file in ["body.urdf", "world.sdf", "brain*.nndf", "fitness*.txt"]:
+    if os.path.exists(file):
+        os.system(f"rm {file}")
 
 phc = PARALLEL_HILL_CLIMBER()
 phc.Evolve()
