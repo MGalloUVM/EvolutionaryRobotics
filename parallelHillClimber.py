@@ -51,6 +51,7 @@ class PARALLEL_HILL_CLIMBER:
             if self.Better_Fitness(self.parents[i].fitness, self.parents[bestIndex].fitness):
                 bestIndex = i
         self.parents[bestIndex].Start_Simulation("GUI")
+        print(f"\n\nBest fitness: {self.parents[bestIndex].fitness}")
     
     # Custom method to make switching fitness easier
     def Better_Fitness(self, leftFitness, rightFitness):
