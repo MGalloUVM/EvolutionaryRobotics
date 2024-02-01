@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import pybullet as p
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 import pyrosim.pyrosim as pyrosim
@@ -16,6 +17,10 @@ class ROBOT:
         # Load our predefined neural network
         self.nn = NEURAL_NETWORK(f"brain{self.solutionID}.nndf")
         os.system(f"rm brain{self.solutionID}.nndf")
+
+        # Record position of head link throughout simulation
+        #    for later fitness evaluations
+        self.head_link_positions = np.zeros(c.simulation_length)
     
     # Create sensors for each link in the robot's body
     def Prepare_To_Sense(self):
@@ -25,6 +30,8 @@ class ROBOT:
     
     # t = time step value
     def Sense(self, t):
+        # TODO Add head link's z position
+        # self.head_link_positions[t] = xCoordinateOfLinkZero
         for sensor in self.sensors.values():
             sensor.Get_Value(t)
     

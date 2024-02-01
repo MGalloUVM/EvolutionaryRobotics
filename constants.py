@@ -8,7 +8,7 @@ pi = np.pi
 
 simulation_length = 1500
 sleep_per_frame = 1/160
-numberOfGenerations = 18
+numberOfGenerations = 3
 populationSize = 18
 
 ###
@@ -20,5 +20,5 @@ motorJointRange = 0.6
 # Max force on a joint
 max_force = 25
 
-numSensorNeurons = 4
-numMotorNeurons = 8
+numSensorNeurons = 12
+numMotorNeurons = 12

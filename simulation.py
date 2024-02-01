@@ -29,7 +29,7 @@ class SIMULATION:
         # Connect Pyroism to robot
         pyrosim.Prepare_To_Simulate(self.robot.robotId)
         # # Prepare robot for sensing
-        # self.robot.Prepare_To_Sense()
+        self.robot.Prepare_To_Sense()
         # Create/link robot motors for acting
         self.robot.Prepare_To_Act()
 
@@ -38,9 +38,8 @@ class SIMULATION:
         #   t: time step
         for t in range(c.simulation_length):
             p.stepSimulation()
-            # # Read sensor values (For saving sensor values throughout run)
-            # self.robot.Sense(t)
-
+            # Read sensor values (For saving sensor values throughout run)
+            self.robot.Sense(t)
             # Use our neural net to figure out what to do next
             self.robot.Think()
             # Apply motor values

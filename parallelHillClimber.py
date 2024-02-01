@@ -55,7 +55,7 @@ class PARALLEL_HILL_CLIMBER:
     
     # Custom method to make switching fitness easier
     def Better_Fitness(self, leftFitness, rightFitness):
-        return leftFitness < rightFitness 
+        return leftFitness > rightFitness 
     
     def Print(self):
         print('\n\n')
