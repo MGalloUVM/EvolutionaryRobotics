@@ -30,8 +30,6 @@ class ROBOT:
     
     # t = time step value
     def Sense(self, t):
-        # TODO Add head link's z position
-        # self.head_link_positions[t] = xCoordinateOfLinkZero
         for sensor in self.sensors.values():
             sensor.Get_Value(t)
     
@@ -54,9 +52,15 @@ class ROBOT:
         self.nn.Update()
     
     def Get_Fitness(self):
+        minimumHeadZ = 0.5
+
         stateOfLinkZero = p.getLinkState(self.robotId, 0)
         positionOfLinkZero = stateOfLinkZero[0]
         xCoordinateOfLinkZero = positionOfLinkZero[0]
+
+        fitness = xCoordinateOfLinkZero
+        if positionOfLinkZero[2] < 1.4:
+            fitness = 0
         with open(f"tmp{self.solutionID}.txt", 'w') as outfile:
-            outfile.write(str(xCoordinateOfLinkZero))
+            outfile.write(str(fitness))
         os.system(f"mv tmp{self.solutionID}.txt fitness{self.solutionID}.txt")
