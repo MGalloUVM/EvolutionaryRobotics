@@ -20,7 +20,7 @@ class PARALLEL_HILL_CLIMBER:
         self.Spawn()
         self.Mutate()
         self.Evaluate(self.children)
-        self.Print()
+        # self.Print()
         self.Select()
     
     def Spawn(self):
@@ -52,6 +52,9 @@ class PARALLEL_HILL_CLIMBER:
                 bestIndex = i
         self.parents[bestIndex].Start_Simulation("GUI")
         print(f"\n\nBest fitness: {self.parents[bestIndex].fitness}")
+        # Print our resulting best weights to a file
+        from numpy import save
+        save("best_weights.npy", self.parents[bestIndex].weights)
     
     # Custom method to make switching fitness easier
     def Better_Fitness(self, leftFitness, rightFitness):
