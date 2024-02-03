@@ -73,24 +73,31 @@ class ROBOT:
         self.nn.Update()
     
     def Get_Fitness(self):
-        # Inner function to penalize for low head height
+        # Head height
+        MIN_HEAD_HEIGHT = 1.8
+        HEAD_HEIGHT_PENALTY_FACTOR = -5.0
+        # Forward movement
+        FORWARD_MOVEMENT_REWARD_FACTOR = 6.0
+        # Upright posture, reduce rotation
+        # Define thresholds for how much roll and pitch are acceptable
+        MAX_ROLL_PITCH = np.pi / 14
+        UPRIGHT_POSTURE_PENALTY_FACTOR = -10
+        # Alternative stepping...
+        ALTERNATIVE_STEP_THRESHOLD = 0.5
+        SEQUENTIAL_MOVEMENT_REWARD_FACTOR = 1.0
+
         def penalize_for_low_head_height(headZ):
-            MIN_HEAD_HEIGHT = 1.8
-            HEAD_HEIGHT_PENALTY_FACTOR = 1
             # Gradual penalty based on the distance from the minimum height
             penalty = max(0, MIN_HEAD_HEIGHT - headZ) * HEAD_HEIGHT_PENALTY_FACTOR
-            return -penalty  # Negative value for penalty
+            return penalty
 
-        # Inner function to reward forward movement
         def reward_for_forward_movement():
             # Consider the forward displacement of the robot's body (e.g., torso)
             initial_position = self.hipsLinkPositions[0]
             final_position = self.hipsLinkPositions[-1]
             forward_displacement = final_position - initial_position
-            FORWARD_MOVEMENT_REWARD_FACTOR = 1.0
             return forward_displacement * FORWARD_MOVEMENT_REWARD_FACTOR
 
-        # Inner function to encourage upright posture
         def reward_for_upright_posture():
             # Get the orientation of the torso or head in quaternion
             _, orientation_quat = p.getBasePositionAndOrientation(self.robotId)
@@ -98,47 +105,35 @@ class ROBOT:
             # Convert quaternion to Euler angles (roll, pitch, yaw)
             roll, pitch, _ = p.getEulerFromQuaternion(orientation_quat)
 
-            # Define thresholds for how much roll and pitch are acceptable
-            MAX_ROLL_PITCH = np.pi / 18  # 10 degrees tolerance, for example
-
             # Calculate the deviation from being perfectly upright (0 roll and pitch)
             roll_deviation = max(0, abs(roll) - MAX_ROLL_PITCH)
             pitch_deviation = max(0, abs(pitch) - MAX_ROLL_PITCH)
 
             # Penalize based on the deviation, more deviation leads to more penalty
-            UPRIGHT_POSTURE_PENALTY_FACTOR = -10  # Negative value as this is a penalty
             penalty = (roll_deviation + pitch_deviation) * UPRIGHT_POSTURE_PENALTY_FACTOR
 
             # Convert penalty to a positive reward value
             return max(0, 10 + penalty)  # Ensure reward is not negative
         
-        # Inner function to reward for positive foot movement
         def reward_for_foot_movement():
             mean_left_foot_movement = mean_positive_movement(self.leftFootLinkPositions)
             mean_right_foot_movement = mean_positive_movement(self.rightFootLinkPositions)
 
             return (mean_left_foot_movement + mean_right_foot_movement) / 2
 
-        # Inner function to calculate mean positive movement
         def mean_positive_movement(linkPositions):
             differences = np.diff(linkPositions)
             positive_differences = np.clip(differences, 0, None)
             return np.mean(positive_differences)
 
-        # Inner function to encourage alternative stepping
         def alternative_stepping_factor():
-            ALTERNATIVE_STEP_THRESHOLD = 0.5
-
             rightFootSensorValues = self.sensors['RightFoot'].values
             leftFootSensorValues = self.sensors['LeftFoot'].values
             feetSensorDiff = np.abs(rightFootSensorValues - leftFootSensorValues)
 
             return np.count_nonzero(feetSensorDiff > ALTERNATIVE_STEP_THRESHOLD) / len(feetSensorDiff)
         
-        # Inner function to reward sequential foot movements
         def reward_sequential_foot_movements():
-            SEQUENTIAL_MOVEMENT_REWARD_FACTOR = 1.0
-
             # Calculate the differences in position for each foot over time
             left_foot_differences = np.diff(self.leftFootLinkPositions)
             right_foot_differences = np.diff(self.rightFootLinkPositions)
